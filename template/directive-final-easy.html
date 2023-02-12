@@ -23,7 +23,7 @@
               <div class="list-group">
                 <a href="#" class="list-group-item list-group-item-action" v-for="item in products"
                    v-bind:key="item.name" @click="selectDrink(item)" :class="{ active : item.boxColor}">
-                  <h6 class="card-title mb-1">{{ item.name }}{{item.boxColor}}</h6>
+                  <h6 class="card-title mb-1">{{ item.name }}{{ item.boxColor }}</h6>
                   <div class="d-flex align-items-center justify-content-between">
                     <p class="mb-0"><small>{{ item.engName }}</small></p>
                     <p class="mb-0"><small>NT$ {{ item.price }}</small></p>
@@ -69,12 +69,12 @@
                     </div>
                   </div>
                   <div class="mb-3">
-                    <label for="productNotice" class="form-label">備註</label>
+                    <label for="productNotice" class="form-label" v-model="temp.remark">備註</label>
                     <textarea class="form-control" id="productNotice" rows="2" v-model="temp.remark"></textarea>
                   </div>
                   <div class="d-flex gap-2">
-                    <button class="btn btn-outline-primary w-100" type="button">取消</button>
-                    <button class="btn btn-primary w-100" type="button" @:click="addOrder()">加入</button>
+                    <button class="btn btn-outline-primary w-100" type="button" @click="clearTemp()">取消</button>
+                    <button class="btn btn-primary w-100" type="button" @click="addOrder()">加入</button>
                   </div>
                 </div>
               </div>
@@ -93,20 +93,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <th scope="row">珍珠鮮奶茶<br>
-                        <small class="text-muted fw-normal">備註：阿姨，我不想努力了</small>
+                    <tr v-for="item in order" :key="item.name">
+                      <th scope="row">{{ item.name }}<br>
+                        <small class="text-muted fw-normal">備註：{{ item.remark }}</small>
                       </th>
-                      <td>正常冰</td>
-                      <td>全糖</td>
-                      <td>椰果</td>
-                      <td>70</td>
-                      <td>1</td>
-                      <td class="text-end">70</td>
+                      <td>{{ item.iceType }}</td>
+                      <td>{{ item.sugarType }}</td>
+                      <td v-for="i in item.toppingsType">{{ i }}</td>
+                      <td>{{ item.price }}</td>
+                      <td>{{ item.productNum }}</td>
+                      <td class="text-end">{{ (item.price + item.toppingsType.length * 10) * item.productNum}}</td>
                     </tr>
                     </tbody>
                   </table>
-                  <p class="text-end">共 NT$ 70 元</p>
+                  <p class="text-end">共 NT$ {{}} 元</p>
                   <button class="btn btn-sm btn-secondary w-100">重新選擇</button>
                 </div>
               </div>
@@ -123,7 +123,7 @@
               sugarType: ['全糖', '七分', '半糖', '三分', '無糖'],
               toppingsType: ['珍珠', '粉條', '小粉圓', '椰果', '芋頭'],
               temp: {
-              toppingsType:[],
+                toppingsType: [],
               },
               order: [],
               products: [
@@ -196,11 +196,21 @@
               this.products.forEach(item => item.boxColor = false)
               this.isSelect = false;
               item.boxColor = !item.boxColor;
+              this.temp.name = item.name;
+              this.temp.price = item.price;
               console.log(item);
             },
-            addOrder(){
-              order.push(temp)
-              this.temp = {toppingsType:[]}
+            addOrder() {
+              this.order.push(this.temp)
+              this.temp = {toppingsType: []}
+              this.products.forEach(item => item.boxColor = false)
+              this.isSelect = true;
+
+            },
+            clearTemp() {
+              this.temp = {toppingsType: []}
+              this.products.forEach(item => item.boxColor = false)
+              this.isSelect = true;
             }
           },
         };

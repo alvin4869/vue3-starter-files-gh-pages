@@ -25,7 +25,7 @@
             </div>
             <div class="list-group option">
               <label class="list-group-item" v-for="item in filterData" :key="item.Id">
-                <input class="form-check-input me-1" type="radio" name="area" @click="select(item,'data')" >
+                <input class="form-check-input me-1" type="radio" name="area" @click="select(item,'data')">
                 {{ item.Name }}
               </label>
             </div>
@@ -34,7 +34,7 @@
             <div class="form-floating">
               <select id="cacheArea" class="form-select w-50 mb-2" aria-label="select example" v-model="datastore">
                 <option selected value="" disabled>瀏覽紀錄</option>
-                <option selected :value="item" v-for="item in browseLog" :key="item.Id" >{{ item.Name }}</option>
+                <option selected :value="item" v-for="item in browseLog" :key="item.Id">{{ item.Name }}</option>
               </select>
               <label for="cacheArea">瀏覽紀錄</label>
             </div>
@@ -67,7 +67,7 @@
             select(item) {
               this.datastore = item;
             },
-            addDrowse(item){
+            addDrowse(item) {
               this.browseLog.push(item)
             },
           },
@@ -75,22 +75,27 @@
             datastore(n) {
               if (this.browseLog.length === 0) {
                 this.addDrowse(n)
-              } else if(this.browseLog.length < 10){
-                this.browseLog.forEach((item,index) => {
+              } else if (this.browseLog.length < 10) {
+                this.browseLog.forEach((item, index) => {
                   if (item.Id === n.Id) {
-                    this.browseLog.splice(index,1)
+                    this.browseLog.splice(index, 1)
                   }
                 });
                 this.addDrowse(n)
-              }else{
-                this.browseLog.splice(0,1)
+              }
+               else {
+                this.browseLog.forEach((item, index) => {
+                  if (item.Id === n.Id) {
+                    this.browseLog.splice(index, 1)
+                  }
+                });
                 this.addDrowse(n)
               }
             }
           },
-          computed:{
-            filterData(){
-              return this.remoteData.filter( item => {
+          computed: {
+            filterData() {
+              return this.remoteData.filter(item => {
                 return item.Name.match(this.cacheSearch)
               })
             }
@@ -121,7 +126,7 @@
     </main>
 
     <aside
-            class="col-md-3">
+      class="col-md-3">
       <div class="sticky-top" style="top: 76px">
         <div class="list-group">
 

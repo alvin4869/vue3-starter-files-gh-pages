@@ -27,40 +27,31 @@
         </ul>
 
         <h3>不同元件的註冊方式</h3>
-        <alert></alert>
-        alert
-
+          <alert>123</alert>
         <h4>
           全域註冊
         </h4>
+          <alert1></alert1>
         <p>此 createApp 下，任何子元件都可運用，在中小型專案、一般頁面開發很方便</p>
-        <alert1></alert1>
         <h4>區域註冊</h4>
         <p>限制在特定元件下才可使用，在 Vue Cli 中很常使用此方法（便於管理）</p>
 
 
         <h4>模組化</h4>
         <p>同屬於區域註冊，Vue Cli 中的實戰運用技巧</p>
-        <alert1></alert1>
-        <alert3></alert3>
 
       </div>
 
       <script type="module">
-        import  alert3  from "./alert-component.js";
-        const alert2 = {
+         const alert2 = {
           data() {
             return {
-              text: 'alert2'
+              text: `區域註冊`
             };
-          },
-          components:{
-            alert3
           },
           template: `
             <div class="alert alert-primary" role="alert">
             {{ text }}
-            <alert3></alert3>
             </div>`
         }
         // 注意，這段起手式與先前不同
@@ -70,36 +61,36 @@
               text: '外部元件文字',
             };
           },
-          components:{
-            alert3
-          }
-        })
-        app.component('alert1', {
-          data() {
-            return {
-              text: 'alert1'
-            };
-          },
-          components: {
-            alert2,
-          },
-          template: `
-            <div class="alert alert-primary" role="alert">
-            {{ text }}
-            <alert2></alert2>
-            </div>`
-        })
-          .component('alert', {
-            data() {
-              return {
-                text: '內部文字'
-              };
+            components:{
+              alert2
             },
-            template: `
-              <div class="alert alert-primary" role="alert">
-              {{ text }}
-              </div>`
-          });
+        })
+        // app.component('alert',{
+        //     data(){
+        //         return {
+        //             text:'全域註冊'
+        //         }
+        //     },
+        //     components:{
+        //       alert2
+        //     },
+        //     template: `
+        //     <div class="alert alert-primary" role="alert">
+        //     {{ text }}
+        //     <alert2></alert2>
+        //     </div>`
+        // })
+        // app.component('alert1',{
+        //     data(){
+        //         return {
+        //             text:'全域註冊1'
+        //         }
+        //     },
+        //     template: `
+        //     <div class="alert alert-primary" role="alert">
+        //     {{ text }}
+        //     </div>`
+        // })
 
         app.mount('#app');
       </script>

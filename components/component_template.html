@@ -27,7 +27,7 @@
         <alert></alert>
 
         <h4>x-template</h4>
-          <alert1></alert1>
+        <alert1></alert1>
         <h4>單文件元件（單一檔案包含 HTML, JS, CSS）</h4>
         <p>本章節不介紹，在 Vue Cli 課程中將會實作（較為簡單，使用與 x-template 接近）</p>
 
@@ -38,16 +38,19 @@
 
         <h4>搭配 v-for 也是沒問題的</h4>
         <!--  <alert v-for="i in array" :key="i"></alert>-->
-        <alert v-for="i in  array" :key="i"></alert>
+        <alert :array="arr" v-for="i in  arr" :key="i"></alert>
+        <div class="alert alert-primary" v-for="i in array" role="alert">
+      {{ i }}
+    </div>
 
         <h4>使用 v-is 綁定</h4>
         <div :is="alert"></div>
 
         <h4>動態屬性</h4>
-        <!--  <input type="text" v-model="componentName">-->
+          <input type="text" v-model="componentName">
 
         <p>任何標籤均可搭配 v-is 進行動態切換</p>
-        <!--  <div v-is="componentName"></div>-->
+          <div v-is="componentName"></div>
 
         <p>在 <code>component</code> 標籤中，可以使用 is 縮寫（由 v2 版轉移過來的功能）</p>
         <!--  <component v-bind:is="componentName"></component>-->
@@ -69,32 +72,33 @@
 
       <script type="module">
         // 注意，這段起手式與先前不同
-        const app = Vue.createApp({
+        const app = Vue.createApp( {
           data() {
             return {
-              array: [1, 2, 3],
-              componentName: 'alert'
+              array : [1, 2, 3],
+              componentName : 'alert'
             };
           },
-        })
+        } )
 
-        app.component('alert', {
-          template: `<div class="alert alert-primary" role="alert">
-      範例ㄧ
+        app.component( 'alert', {
+          props:['arr'],
+          template : `<div class="alert alert-primary" role="alert">
+      {{ i }}
     </div>`,
-        });
-        app.component('alert1', {
-          template: '#x-template'
-        })
+        } );
+        app.component( 'alert1', {
+          template : '#x-template'
+        } )
 
-        app.component('table-row', {
-          template: `<tr>
+        app.component( 'table-row', {
+          template : `<tr>
       <td>$</td>
       <td>這是一個 tr 項目</td>
     </tr>`
-        });
+        } );
 
-        app.mount('#app');
+        app.mount( '#app' );
       </script>
 
       <!-- 🙇🙇練習結束🙇🙇 -->
